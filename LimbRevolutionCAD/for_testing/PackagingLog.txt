@@ -1,0 +1,39 @@
+ant:
+<ant>
+  <mkdir dir="C:\Users\Mastlab\Documents\MATLAB\LimbRevolutionCAD\for_redistribution" />
+  <mkdir dir="C:\Users\Mastlab\Documents\MATLAB\LimbRevolutionCAD\for_testing" />
+</ant>
+mcc -C -o LimbRevolutionCAD -W WinMain:LimbRevolutionCAD -T link:exe -d C:\Users\Mastlab\Documents\MATLAB\LimbRevolutionCAD\for_testing -v C:\TylerBackup2\CompilerTest\CAD\main.m -a C:\TylerBackup2\CompilerTest\CAD\centermodel.m -a C:\TylerBackup2\CompilerTest\CAD\clearplots.m -a C:\TylerBackup2\CompilerTest\CAD\crprotection.m -a C:\TylerBackup2\CompilerTest\CAD\cursorselect.m -a C:\TylerBackup2\CompilerTest\CAD\getaopfile.m -a C:\TylerBackup2\CompilerTest\CAD\getlayer.m -a C:\TylerBackup2\CompilerTest\CAD\getlayer1.m -a C:\TylerBackup2\CompilerTest\CAD\getlayer2.m -a C:\TylerBackup2\CompilerTest\CAD\getmodel.m -a C:\TylerBackup2\CompilerTest\CAD\getnotes.m -a C:\TylerBackup2\CompilerTest\CAD\getsurface.m -a C:\TylerBackup2\CompilerTest\CAD\interpmodel.m -a C:\TylerBackup2\CompilerTest\CAD\Logo.png -a C:\TylerBackup2\CompilerTest\CAD\LogoMovie.mp4 -a C:\TylerBackup2\CompilerTest\CAD\LogoStatic.png -a C:\TylerBackup2\CompilerTest\CAD\main.m -a C:\TylerBackup2\CompilerTest\CAD\maintest.m -a C:\TylerBackup2\CompilerTest\CAD\movielogo.m -a C:\TylerBackup2\CompilerTest\CAD\plot2D.m -a C:\TylerBackup2\CompilerTest\CAD\plot3D.m -a C:\TylerBackup2\CompilerTest\CAD\readaopfile.m -a C:\TylerBackup2\CompilerTest\CAD\testfig.m -a 'C:\Program Files\MATLAB\toolbox\matlab\uitools\uigetfile.m' -a C:\TylerBackup2\CompilerTest\CAD\update2Dfigure.m -a C:\TylerBackup2\CompilerTest\CAD\updatecursor.m 
+Compiler version: 5.0 (R2013b)
+Dependency analysis by DEPFUN.
+Processing C:\Program Files\MATLAB\toolbox\matlab\win64\mcc.enc
+Processing C:\Program Files\MATLAB\toolbox\signal\win64\mcc.enc
+Processing C:\TylerBackup2\CompilerTest\CAD\main.fig
+Processing C:\Program Files\MATLAB\toolbox\matlab\guide\guideopts.fig
+Processing C:\Program Files\MATLAB\toolbox\matlab\winfun\actxcontrolselect.fig
+Processing C:\Program Files\MATLAB\toolbox\matlab\winfun\actxcontrolcreateproperty.fig
+Processing C:\Program Files\MATLAB\toolbox\shared\spcuilib\win64\mcc.enc
+Processing include files...
+2 item(s) added.
+Processing directories installed with MCR...
+The file C:\Users\Mastlab\Documents\MATLAB\LimbRevolutionCAD\for_testing\mccExcludedFiles.log contains a list of functions excluded from the CTF archive.
+0 item(s) added.
+Generating MATLAB path for the compiled application...
+Created 57 path items.
+[Warning: Adding path "C:\TylerBackup2\CompilerTest\CAD" to Compiler path
+instance.] 
+Parsing file "C:\TylerBackup2\CompilerTest\CAD\main.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "C:\Program Files\MATLAB\toolbox\compiler\deploy\deployprint.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "C:\Program Files\MATLAB\toolbox\compiler\deploy\printdlg.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 0 temporary MEX authorization files.
+Generating file "C:\Users\Mastlab\Documents\MATLAB\LimbRevolutionCAD\for_testing\readme.txt".
+Packaging...
+Adding custom icon C:\Program Files\MATLAB\toolbox\compiler\Resources\default_icon.ico to C:\Users\Mastlab\Documents\MATLAB\LimbRevolutionCAD\for_testing\LimbRevolutionCAD.exe.
+Attempting to embed the CTF archive into your application $C:\Users\Mastlab\Documents\MATLAB\LimbRevolutionCAD\for_testing\LimbRevolutionCAD.exe.
+Finished embedding CTF archive. Deleting the external CTF archive.
+Creating the bundle...
+Web based installer created at C:\Users\Mastlab\Documents\MATLAB\LimbRevolutionCAD\for_redistribution\MyAppInstaller_web.exe.
+Packaging complete.

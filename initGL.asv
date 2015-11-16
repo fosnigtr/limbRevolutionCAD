@@ -1,0 +1,213 @@
+function initGL(model)
+
+if
+    object.data = model.data;
+    els
+
+% INITIALIZE CANVAS
+hObject = figure(1);
+set(hObject,'color',[0.192156862745098 0.188235294117647 0.188235294117647]);
+set(hObject,'position', [2590 -98  637 877]);
+set(hObject,'MenuBar','none');
+set(hObject,'ToolBar','none');
+set(hObject,'name','limbRevolution.CAD');
+set(hObject,'NumberTitle','off');
+
+% INITIALIZE AXES
+object.axes1 = axes('Parent',hObject,...
+    'Color',[0.247058823529412 0.247058823529412 0.247058823529412],...
+    'ZColor',[0 0 0],...
+    'YColor',[0 0 0],...
+    'XColor',[0 0 0],...
+    'GridAlpha',1,...
+    'GridColor',[0 0 0]);
+box(object.axes1,'on');
+grid(object.axes1,'on');
+hold(object.axes1,'on');
+
+% SET VIEW PORT
+%****************change these so they're not hard coded in*****************
+object.minX = -100; object.homeMinX = object.minX;
+object.maxX = 100; object.homeMaxX = object.maxX;
+object.minY = 0; object.homeMinY = object.minY;
+object.maxY = 223; object.homeMaxY = object.maxY;
+xlim([object.minX, object.maxX]); ylim([object.minY, object.maxY]);
+%**************************************************************************
+
+% SET UI CALLBACKS
+set(hObject,'WindowButtonDownFcn',{@handleMouseDown});
+set(hObject,'KeyPressFcn',{@handleKeyDown});
+set(hObject,'KeyReleaseFcn',{@handleKeyUp});
+
+% SOME TEST STUFF
+object.numSliceHeights = size(model.data,1);
+object.newRotationMatrix = eye(3,3);
+object.homeData = object.data;
+
+% SAVE DATA
+guidata(hObject,object);
+tick(hObject);
+
+% LOAD MODEL/ASSEMBLY
+% openModel(hObject); % load model
+% openAssembly(hObject); % load assembly
+
+function openModel( hObject )
+object = guidata(hObject);
+
+% LOAD MODEL
+cd('C:\Users\Tyler Fosnight\Documents\Tyler Documents\PDI\CAD');
+load('openGLTestExample.mat','model');
+object.data = model.data; 
+object.homeData = model.data;
+object.numSliceHeights = size(model.data,1);
+object.newRotationMatrix = eye(3,3);
+object.assembly = false;
+
+% SAVE DATA
+guidata(hObject,object);
+tick(hObject);
+
+function openAssembly( hObject )
+object = guidata(hObject);
+
+% LOAD ASSEMBLY
+cd('C:\Users\Tyler Fosnight\Documents\Tyler Documents\PDI\CAD');
+load('innerMold.mat','model');
+object.data = model.data;
+load('innerMold2.mat','model');
+object.data = cat(3,object.data,model.data);
+object.homeData = object.data;
+object.numSliceHeights = size(model.data,1);
+object.newRotationMatrix = eye(3,3);
+object.assembly = true;
+
+% SAVE DATA
+guidata(hObject,object);
+tick(hObject);
+
+function handleMouseDown( hObject, varArgIn )
+object = guidata(hObject);
+props.WindowButtonMotionFcn = get(hObject,'WindowButtonMotionFcn');
+props.WindowButtonUpFcn = get(hObject,'WindowButtonUpFcn');
+setappdata(hObject,'callBacks',props);
+tmp = get(hObject,'CurrentPoint');
+object.lastMouseX = tmp(1);
+object.lastMouseY = tmp(2);
+guidata(hObject, object);
+set(hObject,'WindowButtonMotionFcn',{@handleMouseMove})
+set(hObject,'WindowButtonUpFcn',{@handleMouseUp})
+
+
+function handleMouseMove( hObject, varArgIn )
+object = guidata(hObject);
+tmp = get(hObject,'CurrentPoint');
+object.newX = tmp(1);
+object.newY = tmp(2);
+deltaX = object.newX - object.lastMouseX;
+deltaY = object.newY - object.lastMouseY;
+object.newRotationMatrix = rotz(deltaX / 10) * rotx(deltaY / 10);
+object.lastMouseX = object.newX;
+object.lastMouseY = object.newY;
+guidata(hObject, object);
+tick(hObject);
+
+function handleMouseUp( hObject, varArgIn )
+object = guidata(hObject);
+props = getappdata(hObject,'callBacks');
+set(hObject,props);
+
+function handleKeyDown( hObject, varArgIn )
+object = guidata(hObject);
+object.currentlyPressedKeys = varArgIn.Key;
+guidata(hObject,object);
+handleKeys(hObject);
+
+function handleKeyUp( hObject, varArgIn )
+object = guidata(hObject);
+object.currentlyPressedKeys = false;
+guidata(hObject,object);
+
+function handleKeys( hObject )
+object = guidata(hObject);
+object.x = 0;
+object.z = 0;
+if strcmp(object.currentlyPressedKeys,'uparrow');
+    object.x = 1;
+elseif strcmp(object.currentlyPressedKeys,'downarrow');
+    object.x = -1;
+elseif strcmp(object.currentlyPressedKeys,'rightarrow');
+    object.z = 1;
+elseif strcmp(object.currentlyPressedKeys,'leftarrow');
+    object.z = -1;
+elseif strcmp(object.currentlyPressedKeys,'a');
+    % anterior view (assume homeData is anterior view)
+    object.data = object.homeData;
+    object.minX = object.homeMinX; 
+    object.maxX = object.homeMaxX;
+    object.minY = object.homeMinY;
+    object.maxY = object.homeMaxY;
+elseif strcmp(object.currentlyPressedKeys,'p');
+    % posterior view
+    object.data = object.homeData;
+    object.z = 180;
+    object.data = object.homeData;
+    object.minX = object.homeMinX; 
+    object.maxX = object.homeMaxX;
+    object.minY = object.homeMinY;
+    object.maxY = object.homeMaxY;
+elseif strcmp(object.currentlyPressedKeys,'m');
+    % medial view (assume right leg)
+    object.data = object.homeData;
+    object.z = -45;
+    object.data = object.homeData;
+    object.minX = object.homeMinX; 
+    object.maxX = object.homeMaxX;
+    object.minY = object.homeMinY;
+    object.maxY = object.homeMaxY;
+elseif strcmp(object.currentlyPressedKeys,'l');
+    % lateral view (assume right leg)
+    object.data = object.homeData;
+    object.z = 45;
+    object.data = object.homeData;
+    object.minX = object.homeMinX; 
+    object.maxX = object.homeMaxX;
+    object.minY = object.homeMinY;
+    object.maxY = object.homeMaxY;
+elseif strcmp(object.currentlyPressedKeys,'d');
+    % distal view
+    object.data = object.homeData;
+    object.x = 90;
+    object.minX = object.homeMinX; 
+    object.maxX = object.homeMaxX;
+    object.minY = object.homeMinX;
+    object.maxY = object.homeMaxX;
+elseif strcmp(object.currentlyPressedKeys,'s');
+    % superior/proximal view 
+    object.data = object.homeData;
+    object.x = -90;
+    object.minX = object.homeMinX; 
+    object.maxX = object.homeMaxX;
+    object.minY = object.homeMinX;
+    object.maxY = object.homeMaxX;
+elseif strcmp(object.currentlyPressedKeys,'add');
+    object.minX = object.minX + 10;
+    object.maxX = object.maxX - 10;
+    object.maxY = object.maxY - 10;
+elseif strcmp(object.currentlyPressedKeys,'subtract');
+    object.minX = object.minX - 10;
+    object.maxX = object.maxX + 10;
+    object.maxY = object.maxY + 10;
+end
+object.newRotationMatrix = rotz(object.z)*rotx(object.x);
+guidata(hObject,object);
+tick(hObject);
+
+function tick( hObject )
+object = guidata(hObject);
+if object.assembly
+    drawSceneAssembly(hObject);
+elseif ~object.assembly
+    drawScene(hObject);
+end
+

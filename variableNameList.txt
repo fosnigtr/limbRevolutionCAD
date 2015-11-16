@@ -1,0 +1,15 @@
+pname: 'C:\Users\Tyler Fosnight\Documents\Tyler Documents\PDI\CAD\TestFiles\'
+             fname: 'AOPTestFile2.aop'
+                id: 3
+    numSlicePoints: 90
+         angleStep: 4
+      sliceHeights: [108x1 double]
+              data: [9720x3 double]
+          datatest: [121x90 double]
+         centroidX: -8.9780e-16
+         centroidY: -1.4754e-14
+         centroidZ: 2.2191e-12
+         guiTheta0: 1
+         capHeight: 25
+            capSet: [32 39.5000 45]
+      distalEndDia: 39.5000
