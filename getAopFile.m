@@ -1,4 +1,5 @@
-function [ model ] = getAopFile( hObject, model )
+function getAopFile( hObject )
+model = guidata(hObject);
 % GET FILE
 [name pname]=uigetfile('*.aop','Select the AOP File to Display');
 model.pname = pname; model.fname = name;

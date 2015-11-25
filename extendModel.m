@@ -1,6 +1,7 @@
-function [ model ] = extendModel( hObject, model )
+function extendModel( hObject )
 %EXTENDMODEL Summary of this function goes here
 %   Detailed explanation goes here
+model = guidata(hObject);
 
 % GET MODEL INFORMATION
 data = model.data; % unit

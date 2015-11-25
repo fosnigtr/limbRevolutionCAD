@@ -1,4 +1,13 @@
-function initGL()
+function initGL2(model)
+object.data = model.data;
+
+% DETERMINE IF THIS IS A SINGLE PART OR ASSEMBLY
+if size(object.data,3) == 1
+    object.assembly = false;
+elseif size(object.data,3) == 2
+    object.assembly = true;
+end
+
 % INITIALIZE CANVAS
 hObject = figure(1);
 set(hObject,'color',[0.192156862745098 0.188235294117647 0.188235294117647]);
@@ -32,6 +41,16 @@ object.minY = 0; object.homeMinY = object.minY;
 object.maxY = 223; object.homeMaxY = object.maxY;
 xlim([object.minX, object.maxX]); ylim([object.minY, object.maxY]);
 %**************************************************************************
+
+% SET HOME
+object.numSliceHeights = size(model.data,1);
+object.newRotationMatrix = rotx(45);
+for idx = 1:object.numSliceHeights
+    object.data(idx,:) = object.data(idx,:) * object.newRotationMatrix;
+end
+
+% object.newRotationMatrix = eye(3,3);
+object.homeData = object.data;
 
 % MESH MODEL (USE SQUARE AS PRIMITIVE SHAPE, DESIGNATE NORMAL POINTING OUTWARD)
 object.faces = bsxfun(@plus, ones(model.numSlicePoints*(length(model.sliceHeights)-1)-1,4),...
@@ -78,6 +97,22 @@ set(object.handlePatch,'EdgeAlpha',1);
 set(hObject,'WindowButtonDownFcn',{@handleMouseDown});
 set(hObject,'KeyPressFcn',{@handleKeyDown});
 set(hObject,'KeyReleaseFcn',{@handleKeyUp});
+
+% SAVE DATA
+guidata(hObject,object);
+tick(hObject);
+
+function openModel( hObject )
+object = guidata(hObject);
+
+% LOAD MODEL
+cd('C:\Users\Tyler Fosnight\Documents\Tyler Documents\PDI\CAD');
+load('openGLTestExample.mat','model');
+object.data = model.data; 
+object.homeData = model.data;
+object.numSliceHeights = size(model.data,1);
+object.newRotationMatrix = eye(3,3);
+object.assembly = false;
 
 % SAVE DATA
 guidata(hObject,object);

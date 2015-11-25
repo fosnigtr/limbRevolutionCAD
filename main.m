@@ -58,11 +58,6 @@ guidata(hParentObj,model);
 % INITIALIZE GRAPHICS
 initGL(model);
 
-function Templates_Callback(hParentObj, eventdata, handles)
-% hParentObj    handle to Templates (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
 function Export_Callback(hParentObj, eventdata, handles)
 % hParentObj    handle to Export (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -77,3 +72,28 @@ function Liner_Callback(hParentObj, eventdata, handles)
 % hParentObj    handle to Liner (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+model = guidata(hParentObj);
+templateLinerAlpha(hParentObj,model);
+model = guidata(hParentObj);
+initGL(model);
+
+function figure1_DeleteFcn(hParentObj, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% answer = questdlg('Exit?');
+% if strcmp(answer,'No');
+%     return
+% end
+close all    
+delete(hParentObj);
+
+% --------------------------------------------------------------------
+function Tools_Callback(hObject, eventdata, handles)
+% hObject    handle to Tools (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+tools()
+
+
+

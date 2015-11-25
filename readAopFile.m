@@ -1,7 +1,7 @@
-function [ model ] = readAopFile( hObject, model )
+function readAopFile( hObject )
 %READAOPFILE Summary of this function goes here
 %   Detailed explanation goes here
-
+model = guidata(hObject);
 % GET FILE ID
 fid = fopen([model.pname model.fname], 'r'); 
 mark = 0;
@@ -79,6 +79,8 @@ fclose(fid);
 model.numSlicePoints = numSlicePoints;
 model.angleStep = angleStep;
 model.sliceHeights = sliceHeights;
+model.sliceHeightStep = mean(diff(sliceHeights));
+model.numSliceHeights = length(sliceHeights)*numSlicePoints;
 model.data = data;
 model.datatest = datatest;
 guidata(hObject, model);
